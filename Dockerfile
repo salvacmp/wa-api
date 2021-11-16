@@ -12,8 +12,9 @@ ENV WEB_DOCUMENT_ROOT /app/public
 ENV APP_ENV production
 WORKDIR /app
 COPY ./frontend .
-RUN apt update && apt -y install xdg-utils
+RUN apt update
 RUN cd /tmp && wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN cd /tmp && apt install -y ./google-chrome-stable_current_amd64.deb
 RUN cd /tmp && dpkg -i google-chrome-stable_current_amd64.deb
 
 RUN composer install --no-interaction --optimize-autoloader --no-dev
