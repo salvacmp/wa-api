@@ -1,0 +1,18 @@
+FROM hitalos/laravel:latest
+RUN composer --version
+RUN apk update
+RUN node -v
+RUN npm install -g n
+
+RUN /bin/bash -c "n lts"
+RUN npm i -g npm@latest
+RUN npm i -g yarn
+WORKDIR /var
+
+RUN mkdir backend
+
+COPY ./backend ./backend
+COPY ./frontend ./www
+
+RUN cd www && composer i
+RUN cd backend && yarn

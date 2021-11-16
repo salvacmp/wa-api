@@ -1,0 +1,35 @@
+FROM php:7.4-apache
+
+RUN apt update
+RUN apt install curl unzip npm -y
+# RUN apk install curl -y
+RUN npm cache clean -f && npm install -g n
+RUN npm i -g npm@latest
+RUN n stable
+RUN PATH="$PATH"
+RUN curl -sL https://getcomposer.org/installer | php -- --install-dir /usr/bin --filename composer
+# RUN curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
+# RUN  nvm install 16.13.0
+# RUN composer self-update --2
+# RUN nvm install 14.17.1
+RUN  npm i -g pm2
+RUN node -v && npm -v
+WORKDIR /var/www/
+COPY ./frontend /var/www/html
+RUN mkdir backend
+COPY ./backend /var/www/backend
+RUN cd /var/www/html && composer install
+RUN cd /var/www/backend &&  npm i 
+WORKDIR /var/www/html
+RUN cp .env.example .env
+RUN php artisan key:generate
+WORKDIR /var/www/
+# WORKDIR /usr/share/nginx
+# COPY ./frontend /usr/share/nginx/html
+# RUN cd /usr/share/nginx/html && composer install
+# RUN cd /usr/share/nginx && mkdir backend
+# COPY ./backend /usr/share/nginx/backend
+# RUN cd /usr/share/nginx/backend && npm i 
+EXPOSE 80
+RUN pm2 start ./backend/app.js
+# CMD ["node", "./backend/app.js"]
