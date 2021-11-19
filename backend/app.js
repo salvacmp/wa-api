@@ -1,4 +1,4 @@
-const { Client, MessageMedia } = require('whatsapp-web.js');
+const { Client, MessageMedia, ClientInfo } = require('whatsapp-web.js');
 const express = require('express');
 const { body, validationResult } = require('express-validator');
 const socketIO = require('socket.io');
@@ -14,7 +14,7 @@ const port = process.env.PORT || 8005;
 
 const app = express();
 const server = http.createServer(app);
-const io = socketIO(server);
+const io = socketIO(server,{cors: {origin: "*",methods: ["GET", "POST"],credentials: true}});
 
 app.use(express.json());
 app.use(express.urlencoded({
@@ -51,7 +51,10 @@ const client = new Client({
       '--disable-gpu'
     ],
   },
-  session: sessionCfg
+  session: sessionCfg,
+  qrTimeoutMs:10000,
+  qrRefreshIntervalMs:9000
+  // userAgent: 'Mozilla/5.0 (X11; Linux i686) AppleWebKit/5361 (KHTML, like Gecko) Chrome/39.0.842.0 Mobile Safari/5361',
 });
 
 //TODO: Auto reply and webhook
@@ -80,20 +83,39 @@ client.on('message', msg => {
 
 client.initialize();
 
+
 // Socket IO
 io.on('connection', function(socket) {
-  socket.emit('message', 'Connecting...'); 
+  client.initialize();
+  socket.emit('message', 'Socket ready! Press initialize to start.'); 
+  socket.on('checkstat', function(socket){
+    console.log('stat check init');
+  })
   socket.on('php-init', (init)=>{
     console.log("PHP CONN" + init.init);
   })
-
-  client.on('qr', (qr) => {
-    console.log('QR RECEIVED', qr);
-    qrcode.toDataURL(qr, (err, url) => {
-      socket.emit('qr', url);
-      socket.emit('message', 'QR Code received, scan please!');
+  socket.on('start-init', function(socket){
+    client.initialize();
+    
+  })
+  socket.on('destroy', function(){
+    socket.emit('message', 'Whatsapp is disconnected!');
+    client.destroy();
+    // client.initialize();
+    
+  })
+  socket.on('scanqr',function(){
+    socket.emit('message', 'scan qr initialized');
+    console.log('scan qr initialized')
+    client.on('qr', (qr) => {
+      console.log('QR RECEIVED', qr);
+      qrcode.toDataURL(qr, (err, url) => {
+        socket.emit('qr', url);
+        socket.emit('message', 'QR Code received, scan please!');
+      });
     });
-  });
+  })
+  
 
   client.on('ready', () => {
     socket.emit('ready', 'Whatsapp is ready!');
@@ -124,7 +146,9 @@ io.on('connection', function(socket) {
     });
     client.destroy();
     client.initialize();
+
   });
+
 });
 
 
@@ -134,47 +158,47 @@ const checkRegisteredNumber = async function(number) {
 }
 
 // Send message
-app.post('/send-message', [
-  body('number').notEmpty(),
-  body('message').notEmpty(),
-], async (req, res) => {
-  const errors = validationResult(req).formatWith(({
-    msg
-  }) => {
-    return msg;
-  });
+// app.post('/send-message', [
+//   body('number').notEmpty(),
+//   body('message').notEmpty(),
+// ], async (req, res) => {
+//   const errors = validationResult(req).formatWith(({
+//     msg
+//   }) => {
+//     return msg;
+//   });
 
-  if (!errors.isEmpty()) {
-    return res.status(422).json({
-      status: false,
-      message: errors.mapped()
-    });
-  }
+//   if (!errors.isEmpty()) {
+//     return res.status(422).json({
+//       status: false,
+//       message: errors.mapped()
+//     });
+//   }
 
-  const number = phoneNumberFormatter(req.body.number);
-  const message = req.body.message;
+//   const number = phoneNumberFormatter(req.body.number);
+//   const message = req.body.message;
 
-  const isRegisteredNumber = await checkRegisteredNumber(number);
+//   const isRegisteredNumber = await checkRegisteredNumber(number);
 
-  if (!isRegisteredNumber) {
-    return res.status(422).json({
-      status: false,
-      message: 'The number is not registered'
-    });
-  }
+//   if (!isRegisteredNumber) {
+//     return res.status(422).json({
+//       status: false,
+//       message: 'The number is not registered'
+//     });
+//   }
 
-  client.sendMessage(number, message).then(response => {
-    res.status(200).json({
-      status: true,
-      response: response
-    });
-  }).catch(err => {
-    res.status(500).json({
-      status: false,
-      response: err
-    });
-  });
-});
+//   client.sendMessage(number, message).then(response => {
+//     res.status(200).json({
+//       status: true,
+//       response: response
+//     });
+//   }).catch(err => {
+//     res.status(500).json({
+//       status: false,
+//       response: err
+//     });
+//   });
+// });
 
 // Send media
 // TODO: send image
@@ -277,4 +301,9 @@ app.post('/send-message', [
 
 server.listen(port, function() {
   console.log('App running on *: ' + port);
+});
+
+// Crash protection
+process.on('uncaughtException', function (err) {
+  console.error(err);
 });

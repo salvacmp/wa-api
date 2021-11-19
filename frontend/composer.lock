@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "25991c4476ca62417420830d8d47c314",
+    "content-hash": "5cc13c071a1d8b9033efb79bcf947939",
     "packages": [
         {
             "name": "asm89/stack-cors",
@@ -61,6 +61,72 @@
                 "source": "https://github.com/asm89/stack-cors/tree/v2.0.3"
             },
             "time": "2021-03-11T06:42:03+00:00"
+        },
+        {
+            "name": "attila-erdos/elephant.io",
+            "version": "4.0.8",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/attila-erdos/elephant.io.git",
+                "reference": "3d11c9a8bfbc42236affd7b00c12fd82b0d38ffb"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/attila-erdos/elephant.io/zipball/3d11c9a8bfbc42236affd7b00c12fd82b0d38ffb",
+                "reference": "3d11c9a8bfbc42236affd7b00c12fd82b0d38ffb",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=7.1.0",
+                "psr/log": "~1.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^7.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "ElephantIO\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Baptiste Clavié",
+                    "email": "baptiste@wisembly.com",
+                    "homepage": "http://baptiste.xn--clavi-fsa.net/",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Guillaume Potier",
+                    "email": "guillaume@wisembly.com",
+                    "role": "Maintainer"
+                },
+                {
+                    "name": "Ludovic Barreca",
+                    "email": "ludogp2@gmail.com",
+                    "role": "Project Founder"
+                },
+                {
+                    "name": "Elephant.IO Community",
+                    "role": "Contributors :)"
+                }
+            ],
+            "description": "Send events to a websocket real time engine though PHP",
+            "homepage": "http://elephant.io",
+            "keywords": [
+                "dialog",
+                "nodejs",
+                "real time",
+                "websocket"
+            ],
+            "support": {
+                "source": "https://github.com/attila-erdos/elephant.io/tree/4.0.8"
+            },
+            "time": "2021-09-20T08:25:10+00:00"
         },
         {
             "name": "brick/math",
@@ -121,6 +187,61 @@
                 }
             ],
             "time": "2021-08-15T20:50:18+00:00"
+        },
+        {
+            "name": "brotzka/laravel-dotenv-editor",
+            "version": "v2.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/Brotzka/laravel-dotenv-editor.git",
+                "reference": "843fb4a0b43738641911348bc55f78262fc53b7f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/Brotzka/laravel-dotenv-editor/zipball/843fb4a0b43738641911348bc55f78262fc53b7f",
+                "reference": "843fb4a0b43738641911348bc55f78262fc53b7f",
+                "shasum": ""
+            },
+            "require": {
+                "php": ">=5.5.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Brotzka\\DotenvEditor\\DotenvEditorServiceProvider"
+                    ],
+                    "aliases": {
+                        "DotenvEditor": "Brotzka\\DotenvEditor\\DotenvEditorFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Brotzka\\DotenvEditor\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabian Hagen",
+                    "email": "fabianhagen87@gmail.com"
+                }
+            ],
+            "description": "A package for editing the .env file in your Laravel root.",
+            "keywords": [
+                "dotenv",
+                "dotenv-editor",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/Brotzka/laravel-dotenv-editor/issues",
+                "source": "https://github.com/Brotzka/laravel-dotenv-editor/tree/v2.1.1"
+            },
+            "time": "2021-04-21T06:18:46+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -5514,76 +5635,6 @@
                 "source": "https://github.com/webmozarts/assert/tree/1.10.0"
             },
             "time": "2021-03-09T10:59:23+00:00"
-        },
-        {
-            "name": "wisembly/elephant.io",
-            "version": "v3.3.1",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/Wisembly/elephant.io.git",
-                "reference": "9d56f409fe231a906af87005f83a135565632d3f"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/Wisembly/elephant.io/zipball/9d56f409fe231a906af87005f83a135565632d3f",
-                "reference": "9d56f409fe231a906af87005f83a135565632d3f",
-                "shasum": ""
-            },
-            "require": {
-                "php": ">=5.4.0",
-                "psr/log": "~1.0"
-            },
-            "require-dev": {
-                "phpunit/phpunit": "~4.0"
-            },
-            "type": "library",
-            "autoload": {
-                "psr-4": {
-                    "ElephantIO\\": [
-                        "src/",
-                        "test/"
-                    ]
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Baptiste Clavié",
-                    "email": "baptiste@wisembly.com",
-                    "homepage": "http://baptiste.xn--clavi-fsa.net/",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Guillaume Potier",
-                    "email": "guillaume@wisembly.com",
-                    "role": "Maintainer"
-                },
-                {
-                    "name": "Ludovic Barreca",
-                    "email": "ludogp2@gmail.com",
-                    "role": "Project Founder"
-                },
-                {
-                    "name": "Elephant.IO Community",
-                    "role": "Contributors :)"
-                }
-            ],
-            "description": "Send events to a websocket real time engine though PHP",
-            "homepage": "http://elephant.io",
-            "keywords": [
-                "dialog",
-                "nodejs",
-                "real time",
-                "websocket"
-            ],
-            "support": {
-                "issues": "https://github.com/Wisembly/elephant.io/issues",
-                "source": "https://github.com/Wisembly/elephant.io/tree/master"
-            },
-            "time": "2017-09-10T20:38:38+00:00"
         }
     ],
     "packages-dev": [

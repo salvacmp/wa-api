@@ -29,8 +29,8 @@ RUN chown -R application:application .
 
 RUN mkdir backend
 COPY ./backend ./backend
-RUN npm i -g yarn
 RUN cd backend &&  npm install
 EXPOSE 80
+EXPOSE 8005
 WORKDIR /app/backend
 CMD ["node", "app.js"]
