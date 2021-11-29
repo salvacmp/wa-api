@@ -14,20 +14,36 @@
                             <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
                               <button class="btn btn-primary" id="init">Initialize</button>
                               <button class="btn btn-danger" id="logout">Logout</button>
+                              <button class="btn btn-warning" id="php-start" wire:click.prevent="socketinit">Initialize PHP Socket</button>
                             </div>
-                          </div>
+                        </div>
                     </div>
                 </div>
             </div>
-      </div>
-</div>
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body" style="position: relative;">
+                        <h3 class="card-title">Api Key</h3>
+                        <input type="text" class="form-control" value="{{ App\Models\ApiKey::find(1)->api_key ?? "" }}" readonly/>
+                        <div class="row g-2 align-items-center mb-n3 mt-3">
+                            <div class="col-6 col-sm-4 col-md-2 col-xl mb-3">
+                              <button class="btn btn-success" wire:click.prevent="apigenerate">Generate</button>
+                              <button class="btn btn-danger" wire:click.prevent="apirevoke">Revoke</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
 @section('script')
     <script>
-        let boot = true;
-        var socket = io("http://localhost:8005");
-        $(document).ready(function() {
 
-        });
+        let boot = true;
+        var socket = io('{{ env("WA_SOCKET","") }}');
+        socket.emit('bridgeinit',true);
+        socket.emit('statcheck', true);
         socket.on('message', function(msg) {
             // $('#qrcode').hide();
             console.log(msg)
@@ -43,6 +59,7 @@
         });
 
         socket.on('ready', function(data) {
+            $('#status').text(data);
             $('#qrcode').hide();
             $('#loading').hide();
         });
@@ -54,11 +71,11 @@
         $('#init').on('click', function() {
             // socket.emit('checkstat', 'true')
             $('#qrcode').hide();
-            if(boot){
-                socket.emit('start-init', 'true')
-            }
-            socket.emit('scanqr', 'true')
-
+            // if(boot){
+            //     socket.emit('start-init', 'true')
+            // }
+            // socket.emit('scanqr', 'true')
+            socket.emit('ready','true');
         });
         $('#logout').on('click', function() {
             boot = true;
@@ -75,5 +92,37 @@
             $('#status').text("Socket Offline");
             $('#preinit').hide();
         }
+        socket.on('frombridge', (io)=>{
+            switch(io){
+            case 0:
+                Swal.fire({
+                    title: 'Error!',
+                    text: 'Socket is not ready!',
+                    icon: 'error',
+                    confirmButtonText: 'Ok'
+                })
+                break;
+            default:
+                Swal.fire('Hello '+io)
+            break;
+        }
+        })
+    </script>
+    <script type="text/javascript">
+    // Livewire.on('socketAlert', socket => {
+    //     switch(socket){
+    //         case "0":
+    //             Swal.fire({
+    //                 title: 'Error!',
+    //                 text: 'Socket is not ready!',
+    //                 icon: 'error',
+    //                 confirmButtonText: 'Ok'
+    //             })
+    //             break;
+    //         default:
+    //             Swal.fire('Hello '+socket)
+    //         break;
+    //     }
+    // })
     </script>
 @endsection

@@ -8,6 +8,7 @@
     <link rel="preconnect" href="https://fonts.gstatic.com/" crossorigin>
     <link href="/dist/css/tabler.min.css" rel="stylesheet"/>
     <link href="/dist/css/tabler-buttons.min.css" rel="stylesheet"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.10/dist/sweetalert2.min.css" integrity="sha256-v43W/NzPbaavipHsTh1jdc2zWJ1YSTzJlBajaQBPSlw=" crossorigin="anonymous">
     @livewireStyles
   </head>
   <body class="antialiased border-top-wide border-primary d-flex flex-column">
@@ -72,7 +73,7 @@
       </div>
 
     <!-- Libs JS -->
-
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.1.10/dist/sweetalert2.min.js" integrity="sha256-h7mZHtef38mtqg0rq00smdcgKu0VB9l21kpZ4NS+eTE=" crossorigin="anonymous"></script>
     <script src="/dist/libs/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
     <script src="/dist/libs/jquery/dist/jquery.slim.min.js"></script>
     <!-- Tabler Core -->

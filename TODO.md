@@ -1,5 +1,4 @@
-Auto Reply   
-Dockerizing
+Auto Reply
 Webhook
 REST API
 Setup Page

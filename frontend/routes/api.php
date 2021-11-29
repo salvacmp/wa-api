@@ -2,6 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ApiController;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,6 +15,8 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+// Route::get('/send/text',[ApiController::class,'sendtext']);
+Route::middleware(['ApiAuth'])->prefix('/v1')->group(function () {
+
+    Route::post('/send/text', [ApiController::class,'sendtext']);
 });

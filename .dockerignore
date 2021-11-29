@@ -1,2 +1,4 @@
 backend/node_modules
 frontend/vendor/
+whatsapp-session.json
+.env
